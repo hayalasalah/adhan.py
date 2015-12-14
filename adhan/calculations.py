@@ -1,5 +1,5 @@
 """
-calculations.py - necessary calculations for computing adhan times
+calculations.py - necessary calculations for computing adhan times.
 
 Copyright (C) 2015  Zuhair Parvez
 
@@ -18,5 +18,43 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 
-def gregorian_to_julian(datetime):
-    return 0
+from __future__ import division
+
+
+def gregorian_to_julian(date):
+    """Convert a datetime.date object to its corresponding Julian day.
+
+    :param date: The datetime.date to convert to a Julian day
+    :returns: A Julian day, as an integer
+    """
+    MONTHS_PER_YEAR = 12
+    MARCH = 3
+    JULIAN_START_YEAR = -4800
+
+    before_march = 1 if date.month < MARCH else 0
+
+    #
+    # Number of months since March
+    #
+    month_index = date.month + MONTHS_PER_YEAR * before_march - MARCH
+
+    #
+    # Number of years (year starts on March) since 4800 BC
+    #
+    years_elapsed = date.year - JULIAN_START_YEAR - before_march
+
+    total_days_in_previous_months = (153 * month_index + 2) // 5
+    total_days_in_previous_years = 365 * years_elapsed
+    total_leap_days = (
+        (years_elapsed // 4) -
+        (years_elapsed // 100) +
+        (years_elapsed // 400)
+    )
+
+    return sum([
+        date.day,
+        total_days_in_previous_months,
+        total_days_in_previous_years,
+        total_leap_days,
+        -32045,      # Offset to get January 1, 4713 equal to 0
+    ])
