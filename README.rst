@@ -4,7 +4,13 @@ adhan.py
 
 adhan.py is a Python library for computing adhan times.
 
-It is a refactoring of the PrayTimes.org Python adhan calculator, simplifying where necessary
+It is a refactoring of the PrayTimes.org Python adhan calculator that will ensure:
+
+* PEP8 compliant code
+* A PyPI package
+* A simplified API that favors convention over configuration
+* A test suite
+* Presence on GitHub to encourage contribution
 
 
 ================================
