@@ -47,9 +47,10 @@ Usage
 Supported Options
 =================
 
-=====       ===============
-Key         Supported Values
----         ----------------
-'method'    'mwl', 'isna', 'egypt', 'makkah', 'karachi', 'tehran', or 'jafari'
-'asr'       'standard' or 'hanafi'
+* 'method'
+    * The method to use to calculate the adhan times
+    * **Options**: 'mwl', 'isna', 'egypt', 'makkah', 'karachi', 'tehran', or 'jafari'
+* 'asr'
+    * Whether Asr should be calculated the Hanafi way or not (Standard)
+    * **Options**: 'standard' or 'hanafi'
 
