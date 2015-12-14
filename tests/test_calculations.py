@@ -35,3 +35,17 @@ def test_julian_date_conversion():
             expected,
             result,
         )
+
+def test_julian_date_conversion_before_march():
+    """Test that a Gregorian date before March can be converted to a Julian date."""
+    conversion_date = date(2016, 1, 18)
+
+    result = calculations.gregorian_to_julian(conversion_date)
+    expected = 2457406
+
+    assert result == expected, \
+        "Gregorian date %s should be %d, got %d" % (
+            conversion_date,
+            expected,
+            result,
+        )
