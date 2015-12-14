@@ -1,5 +1,5 @@
 """
-test_calculations.py - tests necessary calculations for computing adhan times
+test_calculations.py - tests necessary calculations for computing adhan times.
 
 Copyright (C) 2015  Zuhair Parvez
 
@@ -19,12 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from datetime import date
 
-from nose.tools import assert_almost_equals
-
 from adhan import calculations
 
 
 def test_julian_date_conversion():
+    """Test that a Gregorian date can be converted to a Julian date."""
     conversion_date = date(2015, 12, 14)
 
     result = calculations.gregorian_to_julian(conversion_date)
