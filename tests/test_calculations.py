@@ -23,9 +23,9 @@ from datetime import date
 from adhan import calculations
 
 
-def _is_close(a, b, rel_tolerance):
+def _is_close(a, b, abs_tolerance):
     diff = abs(a - b)
-    return diff <= rel_tolerance * abs(b) or diff <= rel_tolerance * abs(a)
+    return diff <= abs_tolerance
 
 
 def test_julian_date_conversion():
@@ -67,4 +67,9 @@ def test_declination_of_sun():
     # From http://www.wsanford.com/~wsanford/exo/sundials/DEC_Sun.html
     expected = -23.14
 
-    assert _is_close(result, expected, 0.01)
+    assert _is_close(result, expected, 0.02), \
+        "Sun declination on %s should be %.02f, got %.02f" % (
+            test_date,
+            expected,
+            result
+        )
