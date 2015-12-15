@@ -20,7 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import division
 
-from math import pi, sin, cos, degrees
+from math import (
+    pi,
+    sin, cos, tan, atan2,
+    degrees, radians
+)
+
+
 from datetime import date
 
 
@@ -86,3 +92,47 @@ def sun_declination(day):
 
     return degrees(declination_radians)
 
+
+def equation_of_time(day):
+    """Compute the equation of time for the given date.
+
+    Uses formula described at
+    https://en.wikipedia.org/wiki/Equation_of_time#Alternative_calculation
+
+    :param day: The datetime.date to compute the equation of time for
+    :returns: The angle, in radians, of the Equation of Time
+    """
+    EARTH_AXIS_TILT = radians(23.44)
+
+    W = 360 / 365.24  # Earth's orbital velocity
+
+    day_of_year = day.toordinal() - date(day.year, 1, 1).toordinal()
+
+    #
+    # Distance Earth moves from solstice to January 1 (so about 10 days)
+    #
+    A = W * (day_of_year + 10)
+
+    #
+    # Distance Earth moves from solstice to day_of_year
+    # 2 is the number of days from Jan 1 to periheleon
+    # This is the result of a lot of constants collapsing
+    #
+    B = A + 1.914 * sin(radians(W * (day_of_year - 2)))
+
+    #
+    # Compute "the difference between the angles moved at mean speed, and at
+    # the corrected speed projected onto the equatorial plane, and [divide] by
+    # 180 to get the difference in 'half turns'"
+    #
+    movement_on_equatorial_plane = degrees(
+        atan2(
+            tan(radians(B)),
+            cos(EARTH_AXIS_TILT)
+        )
+    )
+    eot_half_turns = (A - movement_on_equatorial_plane) / 180
+
+    equation_of_time = 720 * (eot_half_turns - int(eot_half_turns + 0.5))
+
+    return radians(equation_of_time)

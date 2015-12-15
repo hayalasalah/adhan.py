@@ -71,5 +71,20 @@ def test_declination_of_sun():
         "Sun declination on %s should be %.02f, got %.02f" % (
             test_date,
             expected,
-            result
+            result,
+        )
+
+
+def test_equation_of_time():
+    """Test that the correct equation of time is computed from a date."""
+    test_date = date(2015, 5, 12)
+
+    result = calculations.equation_of_time(test_date)
+    expected = 0.0602
+
+    assert _is_close(result, expected, 0.005), \
+        "Equation of Time on %s should be %.02f, got %.02f" % (
+            test_date,
+            expected,
+            result,
         )
