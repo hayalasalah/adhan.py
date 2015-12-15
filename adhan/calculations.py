@@ -20,6 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import division
 
+from math import pi, sin, cos, degrees
+from datetime import date
+
 
 def gregorian_to_julian(date):
     """Convert a datetime.date object to its corresponding Julian day.
@@ -58,3 +61,28 @@ def gregorian_to_julian(date):
         total_leap_days,
         -32045,      # Offset to get January 1, 4713 equal to 0
     ])
+
+
+def sun_declination(day):
+    """Compute the declination angle of the sun for the given date.
+
+    Uses the Spencer Formula
+    (found at http://www.illustratingshadows.com/www-formulae-collection.pdf)
+
+    :param day: The datetime.date to compute the declination angle for
+    :returns: The angle, in degrees, of the angle of declination
+    """
+    day_of_year = day.toordinal() - date(day.year, 1, 1).toordinal()
+    day_angle = 2 * pi * day_of_year / 365
+    declination_radians = sum([
+        0.006918,
+        0.001480*sin(3*day_angle),
+        0.070257*sin(day_angle),
+        0.000907*sin(2*day_angle),
+        -0.399912*cos(day_angle),
+        -0.006758*cos(2*day_angle),
+        -0.002697*cos(3*day_angle),
+    ])
+
+    return degrees(declination_radians)
+

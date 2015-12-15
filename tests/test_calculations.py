@@ -19,7 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from datetime import date
 
+
 from adhan import calculations
+
+
+def _is_close(a, b, rel_tolerance):
+    diff = abs(a - b)
+    return diff <= rel_tolerance * abs(b) or diff <= rel_tolerance * abs(a)
 
 
 def test_julian_date_conversion():
@@ -36,8 +42,9 @@ def test_julian_date_conversion():
             result,
         )
 
+
 def test_julian_date_conversion_before_march():
-    """Test that a Gregorian date before March can be converted to a Julian date."""
+    """Test that a date before March can be converted to a Julian date."""
     conversion_date = date(2016, 1, 18)
 
     result = calculations.gregorian_to_julian(conversion_date)
@@ -49,3 +56,15 @@ def test_julian_date_conversion_before_march():
             expected,
             result,
         )
+
+
+def test_declination_of_sun():
+    """Test that the correct declination of sun is computed from a date."""
+    test_date = date(2014, 12, 14)
+
+    result = calculations.sun_declination(test_date)
+
+    # From http://www.wsanford.com/~wsanford/exo/sundials/DEC_Sun.html
+    expected = -23.14
+
+    assert _is_close(result, expected, 0.01)
