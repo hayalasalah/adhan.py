@@ -17,8 +17,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-from datetime import date
+from mock import patch
 
+from datetime import date
 
 from adhan import calculations
 
@@ -88,3 +89,27 @@ def test_equation_of_time():
             expected,
             result,
         )
+
+
+@patch("adhan.calculations.equation_of_time")
+def test_zuhr_utc_west(mock_equation_of_time):
+    """Test that the correct Zuhr time is computed from a date in the west."""
+    test_date = date(2015, 5, 12)
+    mock_equation_of_time.return_value = 0.06377
+
+    result = calculations.compute_zuhr_utc(test_date, longitude=-97.5)
+    expected = 18.43  # ~6:30pm UTC == ~1:30pm CT
+    assert _is_close(result, expected, 0.02), \
+        "%.02f is not %.02f" % (result, expected)
+
+
+@patch("adhan.calculations.equation_of_time")
+def test_zuhr_utc_east(mock_equation_of_time):
+    """Test that the correct Zuhr time is computed from a date in the east."""
+    test_date = date(2015, 5, 12)
+    mock_equation_of_time.return_value = 0.06377
+
+    result = calculations.compute_zuhr_utc(test_date, longitude=97.5)
+    expected = 18.43  # ~6:30pm UTC == ~1:30pm CT
+    assert _is_close(result, expected, 0.02), \
+        "%.02f is not %.02f" % (result, expected)

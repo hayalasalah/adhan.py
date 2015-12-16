@@ -136,3 +136,25 @@ def equation_of_time(day):
     equation_of_time = 720 * (eot_half_turns - int(eot_half_turns + 0.5))
 
     return radians(equation_of_time)
+
+
+def compute_zuhr_utc(day, longitude):
+    """Compute the UTC floating point time for Zuhr given date and longitude.
+
+    This function is necessary since all other prayer times are based on the
+    time for Zuhr
+
+    :param day: The day to compute Zuhr adhan for
+    :param longitude: Longitude of the place of interest
+    :returns: The UTC time for Zuhr, as a floating point number in [0, 24)
+    """
+    eot = equation_of_time(date)
+
+    #
+    # Formula as described by PrayTime.org doesn't work in Eastern hemisphere
+    # because it expects to be subtracting a negative longitude. +abs() should
+    # do the trick
+    #
+
+    zuhr_time_utc = 12 + (abs(longitude) / 15) - eot
+    return abs(zuhr_time_utc) % 24
