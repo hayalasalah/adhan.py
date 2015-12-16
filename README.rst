@@ -1,9 +1,8 @@
-.. image:: https://travis-ci.org/hayalasalah/adhan.py.svg?branch=master
-    :target: https://travis-ci.org/hayalasalah/adhan.py
-
 ========
 adhan.py
 ========
+.. image:: https://travis-ci.org/hayalasalah/adhan.py.svg?branch=master
+    :target: https://travis-ci.org/hayalasalah/adhan.py
 
 adhan.py is a Python library for computing adhan times.
 
