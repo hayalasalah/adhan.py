@@ -17,15 +17,15 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-from mock import patch
-
 from datetime import date
+
+from mock import patch
 
 from adhan import calculations
 
 
-def _is_close(a, b, abs_tolerance):
-    diff = abs(a - b)
+def _is_close(first, second, abs_tolerance):
+    diff = abs(first - second)
     return diff <= abs_tolerance
 
 
@@ -44,7 +44,7 @@ def test_julian_date_conversion():
         )
 
 
-def test_julian_date_conversion_before_march():
+def test_julian_date_conversion_before_march():  # pylint: disable=invalid-name
     """Test that a date before March can be converted to a Julian date."""
     conversion_date = date(2016, 1, 18)
 

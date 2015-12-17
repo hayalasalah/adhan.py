@@ -30,27 +30,32 @@ from math import (
 from datetime import date
 
 
-def gregorian_to_julian(date):
+# Necessary constants for calculations
+
+MONTHS_PER_YEAR = 12
+MARCH = 3
+JULIAN_START_YEAR = -4800
+EARTH_AXIS_TILT = radians(23.44)
+EARTH_ORIBITAL_VELOCITY = 360/365.24
+
+
+def gregorian_to_julian(day):
     """Convert a datetime.date object to its corresponding Julian day.
 
-    :param date: The datetime.date to convert to a Julian day
+    :param day: The datetime.date to convert to a Julian day
     :returns: A Julian day, as an integer
     """
-    MONTHS_PER_YEAR = 12
-    MARCH = 3
-    JULIAN_START_YEAR = -4800
-
-    before_march = 1 if date.month < MARCH else 0
+    before_march = 1 if day.month < MARCH else 0
 
     #
     # Number of months since March
     #
-    month_index = date.month + MONTHS_PER_YEAR * before_march - MARCH
+    month_index = day.month + MONTHS_PER_YEAR * before_march - MARCH
 
     #
     # Number of years (year starts on March) since 4800 BC
     #
-    years_elapsed = date.year - JULIAN_START_YEAR - before_march
+    years_elapsed = day.year - JULIAN_START_YEAR - before_march
 
     total_days_in_previous_months = (153 * month_index + 2) // 5
     total_days_in_previous_years = 365 * years_elapsed
@@ -61,7 +66,7 @@ def gregorian_to_julian(date):
     )
 
     return sum([
-        date.day,
+        day.day,
         total_days_in_previous_months,
         total_days_in_previous_years,
         total_leap_days,
@@ -102,23 +107,21 @@ def equation_of_time(day):
     :param day: The datetime.date to compute the equation of time for
     :returns: The angle, in radians, of the Equation of Time
     """
-    EARTH_AXIS_TILT = radians(23.44)
-
-    W = 360 / 365.24  # Earth's orbital velocity
-
     day_of_year = day.toordinal() - date(day.year, 1, 1).toordinal()
+
+    # pylint: disable=invalid-name
 
     #
     # Distance Earth moves from solstice to January 1 (so about 10 days)
     #
-    A = W * (day_of_year + 10)
+    A = EARTH_ORIBITAL_VELOCITY * (day_of_year + 10)
 
     #
     # Distance Earth moves from solstice to day_of_year
     # 2 is the number of days from Jan 1 to periheleon
     # This is the result of a lot of constants collapsing
     #
-    B = A + 1.914 * sin(radians(W * (day_of_year - 2)))
+    B = A + 1.914 * sin(radians(EARTH_ORIBITAL_VELOCITY * (day_of_year - 2)))
 
     #
     # Compute "the difference between the angles moved at mean speed, and at
@@ -133,9 +136,9 @@ def equation_of_time(day):
     )
     eot_half_turns = (A - movement_on_equatorial_plane) / 180
 
-    equation_of_time = 720 * (eot_half_turns - int(eot_half_turns + 0.5))
+    result = 720 * (eot_half_turns - int(eot_half_turns + 0.5))
 
-    return radians(equation_of_time)
+    return radians(result)
 
 
 def compute_zuhr_utc(day, longitude):
@@ -148,7 +151,7 @@ def compute_zuhr_utc(day, longitude):
     :param longitude: Longitude of the place of interest
     :returns: The UTC time for Zuhr, as a floating point number in [0, 24)
     """
-    eot = equation_of_time(date)
+    eot = equation_of_time(day)
 
     #
     # Formula as described by PrayTime.org doesn't work in Eastern hemisphere
