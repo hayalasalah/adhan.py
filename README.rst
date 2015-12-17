@@ -37,12 +37,15 @@ Usage
     from datetime import date
 
     from adhan import adhan
+    from adhan.methods import isna
 
-    config = {
-       'method' : 'isna',
-       'asr'    : 'hanafi',
-    }
-    adhan_times = adhan(latitude=30.25, longitude=-97.75, date=date.today(), **config)
+    adhan_times = adhan(
+        date = date.today(),
+        latitude=30.25,
+        longitude=-97.75,
+        method=isna,
+        asr='hanafi'
+    )
 
     print adhan_times['fajr']
     print adhan_times['shuruq']
