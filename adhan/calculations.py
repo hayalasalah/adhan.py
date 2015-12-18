@@ -22,7 +22,7 @@ from __future__ import division
 
 from math import (
     pi,
-    sin, cos, tan, atan2,
+    sin, cos, tan, acos, atan2,
     degrees, radians
 )
 
@@ -161,3 +161,31 @@ def compute_zuhr_utc(day, longitude):
 
     zuhr_time_utc = 12 + (abs(longitude) / 15) - eot
     return abs(zuhr_time_utc) % 24
+
+
+def compute_time_at_sun_angle(day, latitude, angle):
+    """Compute the floating point time difference between mid-day and an angle.
+
+    All the prayers are defined as certain angles from mid-day (Zuhr).
+    This formula is taken from praytimes.org/calculation
+
+    :param day: The day to which to compute for
+    :param longitude: Longitude of the place of interest
+    :angle: The angle at which to compute the time
+    :returns: The floating point time delta between Zuhr and the angle, the
+              sign of the result corresponds to the sign of the angle
+    """
+    positive_angle_rad = radians(abs(angle))
+    angle_sign = abs(angle)/angle
+
+    latitude_rad = radians(latitude)
+
+    declination = radians(sun_declination(day))
+
+    numerator = -sin(positive_angle_rad) - sin(latitude_rad) * sin(declination)
+
+    denominator = cos(latitude_rad) * cos(declination)
+
+    time_diff = degrees(acos(numerator/denominator)) / 15
+
+    return time_diff * angle_sign

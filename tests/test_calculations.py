@@ -113,3 +113,35 @@ def test_zuhr_utc_east(mock_equation_of_time):
     expected = 18.43  # ~6:30pm UTC == ~1:30pm CT
     assert _is_close(result, expected, 0.02), \
         "%.02f is not %.02f" % (result, expected)
+
+
+@patch("adhan.calculations.sun_declination")
+def test_time_at_positive_sun_angle(mock_declination):
+    """Test that the correct time for a positive sun angle is computed."""
+    test_date = date(2015, 5, 12)
+    mock_declination.return_value = 17.59
+
+    result = calculations.compute_time_at_sun_angle(
+        day=test_date,
+        latitude=30.25,
+        angle=15
+    )
+    expected = 8.0015
+    assert _is_close(result, expected, 0.05), \
+        "%.07f is not %.07f" % (result, expected)
+
+
+@patch("adhan.calculations.sun_declination")
+def test_time_at_negative_sun_angle(mock_declination):
+    """Test that the correct time for a positive sun angle is computed."""
+    test_date = date(2015, 5, 12)
+    mock_declination.return_value = 17.59
+
+    result = calculations.compute_time_at_sun_angle(
+        day=test_date,
+        latitude=30.25,
+        angle=-15
+    )
+    expected = -8.0015
+    assert _is_close(result, expected, 0.05), \
+        "%.07f is not %.07f" % (result, expected)
