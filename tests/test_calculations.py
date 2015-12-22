@@ -145,3 +145,19 @@ def test_time_at_negative_sun_angle(mock_declination):
     expected = -8.0015
     assert _is_close(result, expected, 0.05), \
         "%.07f is not %.07f" % (result, expected)
+
+
+@patch("adhan.calculations.sun_declination")
+def test_time_at_shadow_length(mock_declination):
+    """Test that the correct time for a shadown length is computed."""
+    test_date = date(2015, 5, 12)
+    mock_declination.return_value = 17.59
+
+    result = calculations.time_at_shadow_length(
+        day=test_date,
+        latitude=30.25,
+        multiplier=1
+    )
+    expected = 3.622
+    assert _is_close(result, expected, 0.05), \
+        "%.07f is not %.07f" % (result, expected)

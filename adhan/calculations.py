@@ -20,14 +20,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import division
 
+from datetime import date
+
 from math import (
     pi,
-    sin, cos, tan, acos, atan2,
+    sin, cos, tan, acos, atan, atan2,
     degrees, radians
 )
 
 
-from datetime import date
+def arccot(x):  # pylint: disable=invalid-name
+    """Compute the arccot in radians."""
+    return atan(1/x)
 
 
 # Necessary constants for calculations
@@ -189,3 +193,34 @@ def compute_time_at_sun_angle(day, latitude, angle):
     time_diff = degrees(acos(numerator/denominator)) / 15
 
     return time_diff * angle_sign
+
+
+def time_at_shadow_length(day, latitude, multiplier):
+    """Compute the time at which an object's shadow is a multiple of its length.
+
+    Specifically, determine the time the length of the shadow is a multiple of
+    the object's length + the length of the object's shadow at noon
+
+    This is used in the calculation for Asr time. Hanafi uses a multiplier of
+    2, and everyone else uses a multiplier of 1
+
+    Algorithm taken almost directly from PrayTimes.org code
+
+    :param day: The day which to compute for
+    :param latitude: The latitude of the place of interest
+    :param: multiplier: The multiplier of the object's length
+    :returns: The floating point time delta between Zuhr and the time at which
+              the lenghth of the shadow is as defined
+    """
+    latitude_rad = radians(latitude)
+    declination = radians(sun_declination(day))
+
+    angle = arccot(
+        multiplier +
+        tan(abs(latitude_rad - declination))
+    )
+
+    numerator = sin(angle) - sin(latitude_rad)*sin(declination)
+    denominator = cos(latitude_rad) * cos(declination)
+
+    return degrees(acos(numerator/denominator)) / 15
