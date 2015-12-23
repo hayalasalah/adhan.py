@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 
+# pylint: disable=pointless-string-statement
+
 
 """
 
@@ -41,7 +43,7 @@ EGYPT = {
 
 MAKKAH = {
     'fajr_angle': 18.5,
-    'isha_delay': 90,
+    'isha_delay': 1.5,
 }
 
 KARACHI = {
