@@ -6,7 +6,7 @@ adhan.py
 .. image:: https://img.shields.io/github/license/hayalasalah/adhan.py.svg
     :target: https://github.com/hayalasalah/adhan.py/blob/master/LICENSE
 
-adhan.py is a Python library for computing adhan times.
+adhan.py is a Python 2.7 and 3+ library for computing adhan times.
 
 It is a refactoring of the PrayTimes.org Python adhan calculator that will ensure:
 
@@ -15,11 +15,6 @@ It is a refactoring of the PrayTimes.org Python adhan calculator that will ensur
 * A simplified API that favors convention over configuration
 * A test suite
 * Presence on GitHub to encourage contribution
-
-
-================================
-THE FOLLOWING DOES NOT WORK YET
-================================
 
 Installation
 ============
@@ -40,11 +35,11 @@ Usage
     from adhan.methods import ISNA, ASR_STANDARD
 
     params = {}
-    params.upate(ISNA)
+    params.update(ISNA)
     params.update(ASR_STANDARD)
 
     adhan_times = adhan(
-        date = date.today(),
+        day=date.today(),
         location=(30.25,-97.75),
         parameters=params,
         timezone_offset=-6,
