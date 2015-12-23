@@ -27,12 +27,15 @@ def test_functional_simple():
     #
     # First, actually compute the adhan times
     #
+
+    parameters = {}
+    parameters.update(methods.isna)
+    parameters.update(methods.asr_hanafi)
+
     adhan_times = adhan(
         date=date(2015, 12, 22),
-        latitude=30.25,
-        longitude=-97.75,
-        method=methods.isna,
-        asr=methods.asr_standard,
+        location=(30.25, -97.75),
+        parameters=parameters,
         timezone_offset=-6
     )
 
