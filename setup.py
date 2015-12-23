@@ -28,9 +28,20 @@ setup(
     version='0.1.0',
     description='Python library for computing adhan times',
     author='Zuhair Parvez',
+    author_email='zuhairparvez@gmail.com',
     url='https://github.com/hayalasalah/adhan.py',
+    download_url='https://github.com/hayalasalah/adhan.py/releases/tag/0.1',
     packages=['adhan'],
     install_requires=requires,
     include_package_data=True,
     license='LGPL 3.0',
+    keywords=['adhan', 'islam', 'muslim', 'religious'],
+    classifiers=[
+        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Topic :: Religion',
+    ]
 )
