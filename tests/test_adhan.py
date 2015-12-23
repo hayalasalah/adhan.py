@@ -33,7 +33,7 @@ def test_functional_simple():
     parameters.update(methods.ASR_STANDARD)
 
     adhan_times = adhan(
-        date=date(2015, 12, 22),
+        day=date(2015, 12, 22),
         location=(30.25, -97.75),
         parameters=parameters,
         timezone_offset=-6

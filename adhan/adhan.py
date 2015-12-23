@@ -22,7 +22,7 @@ SUNRISE_ANGLE = 0.833
 SUNSET_ANGLE = 0.833
 
 
-def adhan(date, location, parameters, timezone_offset=0):
+def adhan(day, location, parameters, timezone_offset=0):
     """Calculate adhan times given the parameters.
 
     This function will compute the adhan times for a certain location on
@@ -30,7 +30,7 @@ def adhan(date, location, parameters, timezone_offset=0):
     Asr can also be specified. The timezone offset naively adds the specified
     number of hours to each time that is returned.
 
-    :param date: The datetime.date to calculate for
+    :param day: The datetime.date to calculate for
     :param location: 2-tuple of floating point coordiantes for latitude and
                      longitude of location in degrees
     :param parameters: A dictionary-like object of parameters for computing
