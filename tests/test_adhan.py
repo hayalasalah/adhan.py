@@ -29,8 +29,8 @@ def test_functional_simple():
     #
 
     parameters = {}
-    parameters.update(methods.isna)
-    parameters.update(methods.asr_hanafi)
+    parameters.update(methods.ISNA)
+    parameters.update(methods.ASR_STANDARD)
 
     adhan_times = adhan(
         date=date(2015, 12, 22),
