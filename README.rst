@@ -37,33 +37,54 @@ Usage
     from datetime import date
 
     from adhan import adhan
-    from adhan.methods import isna
+    from adhan.methods import ISNA, ASR_STANDARD
+
+    params = {}
+    params.upate(ISNA)
+    params.update(ASR_STANDARD)
 
     adhan_times = adhan(
         date = date.today(),
-        latitude=30.25,
-        longitude=-97.75,
-        method=isna,
-        asr='hanafi'
+        location=(30.25,-97.75),
+        parameters=params,
+        timezone_offset=-6,
     )
 
-    print adhan_times['fajr']
-    print adhan_times['shuruq']
-    print adhan_times['zuhr']
-    print adhan_times['asr']
-    print adhan_times['maghrib']
-    print adhan_times['isha']
+    """
+    adhan_times will be a dict containing datetime objects for the keys 'fajr',
+    'shuruq', 'zuhr', 'asr', 'maghrib', and 'isha'
+
+    """
 
 
 
-
-Supported Options
+Available Methods
 =================
 
-* 'method'
-    * The method to use to calculate the adhan times
-    * **Options**: 'mwl', 'isna', 'egypt', 'makkah', 'karachi', 'tehran', or 'jafari'
-* 'asr'
-    * Whether Asr should be calculated the Hanafi way or not (Standard)
-    * **Options**: 'standard' or 'hanafi'
+The following methods are available in the adhan.methods module and should cover
+the vast majority of cases
+
+* ISNA: Islamic Society of North America
+* MUSLIM_WORLD_LEAGUE: Muslim World League
+* EGYPT: Egyptian General Authority of Survey
+* MAKKAH: Umm al-Qura University, Makkah
+* KARACHI: University of Islamic Sciences, Karachi
+* TEHRAN: Institude of Geophysics, University of Tehran
+* SHIA: Shia Ithna Ashari, Leva Research Institute, Qum
+
+* ASR_STANDARD: Shafi'i, Maliki, Ja'fari, and Hanbali
+* ASR_HANAFI: Hanafi
+
+Custom Parameter Dictionary
+===========================
+
+In case you want to define your own parameters, the parameters argument accepts
+dicts with the following keys
+
+* fajr_angle: The angle below sunrise to compute Fajr for
+* isha_angle: The angle below sunset to compute Isha for
+* asr_multiplier: The multiplier to use for Asr, such that the length of
+  an object's shadow is the multiplier * the object's length + the length of the
+  object's shadow at midday
+* isha_delay: The floating point number of hours after Maghrib that Isha is
 
