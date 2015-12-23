@@ -17,6 +17,13 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
+from .calculations import (
+    compute_time_at_sun_angle,
+    compute_zuhr_utc,
+    time_at_shadow_length,
+)
+
+from .methods import ASR_STANDARD
 
 SUNRISE_ANGLE = 0.833
 SUNSET_ANGLE = 0.833
