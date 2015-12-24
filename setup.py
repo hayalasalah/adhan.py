@@ -25,7 +25,7 @@ requires = []
 
 setup(
     name='adhan',
-    version='0.1.0',
+    version='0.1.1',
     description='Python library for computing adhan times',
     author='Zuhair Parvez',
     author_email='zuhairparvez@gmail.com',
